@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Saanjh — A Hillside Homestay, Darjeeling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pine-deep: #1F2E22;
+    --pine-mid: #3C5440;
+    --wood: #6B4226;
+    --cream: #F3EEE3;
+    --cream-dark: #E8E0CF;
+    --amber: #D98E3F;
+    --rust: #A8492F;
+    --mist: rgba(243,238,227,0.08);
+    --overlay-dark: rgba(15,20,16,0.5);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--pine-deep);
+    font-family: 'Work Sans', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  /* ============================================================
+     NAVBAR
+  ============================================================ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    background: transparent;
+    transition: background 0.5s ease, backdrop-filter 0.5s ease, box-shadow 0.5s ease;
+  }
+  .nav.scrolled {
+    background: rgba(15,20,16,0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 1px 0 rgba(243,238,227,0.07);
+  }
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(243,238,227,0.82);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-book-btn {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pine-deep);
+    background: var(--amber);
+    border: none;
+    padding: 10px 22px;
+    text-decoration: none;
+    transition: background 0.35s ease, color 0.35s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-book-btn:hover {
+    background: var(--cream);
+    color: var(--pine-deep);
+  }
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--cream);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* ============================================================
+     HERO
+  ============================================================ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--pine-deep);
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2s ease;
+    transform: scale(1.04);
+    animation: none;
+  }
+  .bg-slide.active {
+    opacity: 1;
+    animation: slowZoom 9s ease forwards;
+  }
+  @keyframes slowZoom {
+    from { transform: scale(1.04); }
+    to { transform: scale(1); }
+  }
+  .bg-slide-1 { background-image: url('images/hero-1.jpg'); }
+  .bg-slide-2 { background-image: url('images/hero-2.jpg'); }
+  .bg-slide-3 { background-image: url('images/hero-3.jpg'); }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(15,20,16,0.22) 0%,
+      rgba(15,20,16,0.15) 40%,
+      rgba(15,20,16,0.72) 100%
+    );
+    z-index: 1;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 40px 100px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .overline {
+    color: var(--amber);
+    margin-bottom: 26px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.1s;
+  }
+  h1.title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(4rem, 10vw, 8rem);
+    color: var(--cream);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 0.25s;
+  }
+  .hug-line {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 3vw, 2.1rem);
+    color: var(--amber);
+    margin-top: 24px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 0.42s;
+  }
+  .subhead {
+    font-family: 'Work Sans', sans-serif;
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    font-weight: 300;
+    color: rgba(230,217,199,0.88);
+    margin-top: 16px;
+    max-width: 440px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 0.55s;
+  }
+  .hero-cta {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 0.7s;
+  }
+  /* Hero slide indicators */
+  .hero-indicators {
+    position: absolute;
+    bottom: 220px;
+    right: 40px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.2s;
+  }
+  .hero-dot {
+    width: 2px;
+    height: 22px;
+    background: rgba(243,238,227,0.3);
+    cursor: pointer;
+    transition: background 0.4s ease, height 0.4s ease;
+    border: none;
+  }
+  .hero-dot.active {
+    background: var(--amber);
+    height: 36px;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 30px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--amber);
+    color: var(--cream);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    background: transparent;
+  }
+  .btn:hover { background: var(--amber); color: var(--pine-deep); }
+  .btn.filled {
+    background: var(--amber);
+    color: var(--pine-deep);
+    border-color: var(--amber);
+  }
+  .btn.filled:hover {
+    background: transparent;
+    color: var(--cream);
+    border-color: var(--cream);
+  }
+  .btn.ghost-dark {
+    border-color: rgba(31,46,34,0.35);
+    color: var(--pine-deep);
+  }
+  .btn.ghost-dark:hover {
+    background: var(--pine-deep);
+    color: var(--cream);
+    border-color: var(--pine-deep);
+  }
+
+  /* ============================================================
+     BOOKING WIDGET
+  ============================================================ */
+  .booking-widget-wrap {
+    position: relative;
+    z-index: 10;
+    margin-top: -2px;
+    background: var(--pine-deep);
+  }
+  .booking-widget {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 0;
+    border-top: 1px solid rgba(243,238,227,0.1);
+  }
+  .booking-field {
+    padding: 24px 28px;
+    border-right: 1px solid rgba(243,238,227,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .booking-field:hover { background: rgba(243,238,227,0.04); }
+  .booking-field:last-of-type { border-right: none; }
+  .booking-field-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .booking-field-value {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 400;
+    color: rgba(243,238,227,0.75);
+  }
+  .booking-submit {
+    padding: 0 36px;
+    background: var(--amber);
+    border: none;
+    color: var(--pine-deep);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.35s ease;
+    white-space: nowrap;
+  }
+  .booking-submit:hover { background: var(--cream); }
+
+  /* ============================================================
+     TRUST SIGNALS
+  ============================================================ */
+  .trust-section {
+    padding: 100px 0;
+    background: var(--cream);
+  }
+  .trust-headline {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .trust-headline .eyebrow {
+    color: var(--rust);
+    display: block;
+    margin-bottom: 16px;
+  }
+  .trust-headline h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    color: var(--pine-deep);
+    line-height: 1.15;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(31,46,34,0.1);
+    border: 1px solid rgba(31,46,34,0.1);
+  }
+  .trust-card {
+    background: var(--cream);
+    padding: 44px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: background 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .trust-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+  }
+  .trust-card:hover { background: #EDE8DA; }
+  .trust-card:hover::before { transform: scaleX(1); }
+  .trust-icon {
+    width: 36px;
+    height: 36px;
+    color: var(--rust);
+  }
+  .trust-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--pine-deep);
+    line-height: 1.2;
+  }
+  .trust-card-desc {
+    font-size: 0.88rem;
+    color: var(--wood);
+    line-height: 1.65;
+    opacity: 0.85;
+  }
+
+  /* ============================================================
+     STORYTELLING / MORNINGS
+  ============================================================ */
+  .section { padding: 110px 0; }
+  .section.cream { background: var(--cream); }
+  .section.pine { background: var(--pine-deep); color: var(--cream); }
+  .section.linen { background: #EDE8DA; }
+
+  .mornings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .mornings-photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background-color: #DCE9D9;
+    background-image: url('images/breakfast-morning.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .mornings-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(31,46,34,0.12) 100%);
+  }
+  .eyebrow {
+    color: var(--rust);
+    display: block;
+    margin-bottom: 18px;
+  }
+  .pine .eyebrow { color: var(--amber); }
+  h2.section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 24px;
+    line-height: 1.05;
+  }
+  .body-copy {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--wood);
+    max-width: 440px;
+    line-height: 1.78;
+  }
+  .pine .body-copy { color: rgba(217,205,186,0.88); }
+  .time-tag {
+    margin-top: 32px;
+    color: var(--rust);
+    display: block;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.from-left {
+    transform: translateX(-36px);
+  }
+  .reveal.from-right {
+    transform: translateX(36px);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  /* ============================================================
+     ROOM SLIDER — UPGRADED
+  ============================================================ */
+  .slider {
+    position: relative;
+    margin-top: 60px;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.8s ease;
+    transform: scale(1.03);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.9s ease, transform 6s ease;
+  }
+  .slide.has-text::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15,20,16,0) 30%, rgba(15,20,16,0.88) 100%);
+  }
+  .slide-1 { background-image: url('images/room-01.jpg'); }
+  .slide-2 { background-image: url('images/room-02.jpg'); }
+  .slide-3 { background-image: url('images/room-03.jpg'); }
+  .slide-text {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 2;
+    padding: 48px 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .slide-text-left .room-tag {
+    color: var(--amber);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .slide-text-left h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 2rem;
+    color: var(--cream);
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+  .slide-text-left .room-desc {
+    color: rgba(217,205,186,0.8);
+    font-size: 0.92rem;
+    max-width: 360px;
+    font-weight: 300;
+    margin-bottom: 4px;
+  }
+  .room-meta {
+    display: flex;
+    gap: 18px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .room-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: rgba(217,205,186,0.7);
+  }
+  .room-meta-item svg {
+    width: 14px; height: 14px;
+    opacity: 0.7;
+  }
+  .slide-text-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .room-price {
+    text-align: right;
+  }
+  .room-price-amount {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .room-price-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    display: block;
+    margin-top: 4px;
+  }
+  .room-book-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: var(--amber);
+    color: var(--pine-deep);
+    border: 1px solid var(--amber);
+    transition: all 0.35s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    border: none;
+  }
+  .room-book-btn:hover { background: var(--cream); }
+
+  .slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background: rgba(15,20,16,0.4);
+    border: 1px solid rgba(243,238,227,0.25);
+    color: var(--cream);
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .slider-nav:hover { background: var(--amber); border-color: var(--amber); }
+  .slider-nav svg { width: 18px; height: 18px; }
+  .slider-nav.prev { left: 24px; }
+  .slider-nav.next { right: 24px; }
+  .dots {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+    justify-content: center;
+  }
+  .dot {
+    width: 28px; height: 2px;
+    background: rgba(31,46,34,0.2);
+    cursor: pointer;
+    transition: background 0.35s ease, width 0.35s ease;
+    border: none;
+  }
+  .dot.active {
+    background: var(--rust);
+    width: 44px;
+  }
+
+  /* ============================================================
+     TESTIMONIALS
+  ============================================================ */
+  .testimonials-section {
+    padding: 110px 0;
+    background: var(--pine-deep);
+    color: var(--cream);
+  }
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 72px;
+  }
+  .testimonials-header .eyebrow { margin-bottom: 18px; }
+  .testimonials-header h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--cream);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.2;
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(243,238,227,0.06);
+  }
+  .testimonial-card {
+    background: var(--pine-deep);
+    padding: 48px 38px;
+    border: 1px solid rgba(243,238,227,0.07);
+    transition: background 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .testimonial-card:hover { background: rgba(243,238,227,0.04); }
+  .testimonial-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+  .testimonial-stars svg {
+    width: 14px; height: 14px;
+    fill: var(--amber);
+  }
+  .testimonial-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(243,238,227,0.9);
+    flex: 1;
+    margin-bottom: 32px;
+  }
+  .testimonial-author {
+    border-top: 1px solid rgba(243,238,227,0.1);
+    padding-top: 22px;
+  }
+  .testimonial-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--cream);
+  }
+  .testimonial-city {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ============================================================
+     DIRECT BOOKING ADVANTAGE — UPGRADED
+  ============================================================ */
+  .direct-section {
+    padding: 110px 0;
+    background: var(--cream);
+  }
+  .direct-inner {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .direct-inner h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--pine-deep);
+    margin-bottom: 16px;
+    line-height: 1.05;
+  }
+  .direct-inner .body-copy {
+    margin: 0 auto;
+    text-align: center;
+  }
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    max-width: 840px;
+    margin: 0 auto;
+    background: rgba(31,46,34,0.12);
+  }
+  .comparison-col {
+    padding: 48px 44px;
+  }
+  .comparison-col.platform {
+    background: #E8E0CF;
+  }
+  .comparison-col.direct {
+    background: var(--pine-deep);
+  }
+  .comparison-col-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: block;
+  }
+  .comparison-col.platform .comparison-col-label { color: var(--rust); }
+  .comparison-col.direct .comparison-col-label { color: var(--amber); }
+  .comparison-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .comparison-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .comparison-col.platform .comparison-list li { color: var(--wood); }
+  .comparison-col.direct .comparison-list li { color: rgba(243,238,227,0.85); }
+  .comparison-list-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .comparison-col.platform .comparison-list-icon { color: var(--rust); opacity: 0.6; }
+  .comparison-col.direct .comparison-list-icon { color: var(--amber); }
+  .rate-guarantee {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 12px 28px;
+    border: 1px solid rgba(31,46,34,0.2);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pine-mid);
+  }
+
+  /* ============================================================
+     FINAL CTA
+  ============================================================ */
+  .final-cta {
+    padding: 120px 0;
+    background: var(--pine-deep);
+    color: var(--cream);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: 'Saanjh';
+    position: absolute;
+    font-family: 'Fraunces', serif;
+    font-size: 28vw;
+    font-weight: 600;
+    color: rgba(243,238,227,0.025);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 1;
+  }
+  .final-cta-inner {
+    position: relative;
+    z-index: 1;
+  }
+  .final-cta .eyebrow {
+    margin-bottom: 20px;
+  }
+  .final-cta h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    color: var(--cream);
+    line-height: 1.05;
+    margin-bottom: 20px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .final-cta .subtext {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(243,238,227,0.65);
+    max-width: 400px;
+    margin: 0 auto 56px;
+    line-height: 1.7;
+  }
+  .final-cta-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .cta-btn-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: #25D366;
+    color: #fff;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #25D366;
+    transition: background 0.35s ease;
+  }
+  .cta-btn-wa:hover { background: #1fb956; border-color: #1fb956; }
+  .cta-btn-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: transparent;
+    color: var(--cream);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(243,238,227,0.35);
+    transition: all 0.35s ease;
+  }
+  .cta-btn-call:hover { border-color: var(--amber); color: var(--amber); }
+  .cta-btn-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--amber);
+    color: var(--pine-deep);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--amber);
+    transition: all 0.35s ease;
+  }
+  .cta-btn-email:hover { background: transparent; color: var(--cream); border-color: var(--cream); }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer {
+    background: #12190F;
+    color: var(--cream);
+    padding: 72px 0 48px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid rgba(243,238,227,0.08);
+    margin-bottom: 40px;
+  }
+  .footer-brand h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--cream);
+  }
+  .footer-brand p {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(243,238,227,0.55);
+    line-height: 1.7;
+    max-width: 260px;
+  }
+  .footer-col-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    display: block;
+    margin-bottom: 20px;
+  }
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-links a {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(243,238,227,0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover { color: var(--cream); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-bottom p {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: rgba(243,238,227,0.35);
+  }
+
+  /* ============================================================
+     HOUSE OF KUNJ SIGNATURE
+  ============================================================ */
+  .hok-signature {
+    padding: 28px 40px;
+    background: #0D1309;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .hok-byline {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hok-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--amber);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .hok-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .hok-name {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--cream);
+    opacity: 0.9;
+  }
+  .hok-tagline {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    opacity: 0.75;
+  }
+  .hok-cta-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(243,238,227,0.4);
+    text-decoration: none;
+    transition: color 0.35s ease;
+    white-space: nowrap;
+  }
+  .hok-cta-link:hover { color: var(--amber); }
+
+  /* ============================================================
+     FLOATING WHATSAPP
+  ============================================================ */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 56px;
+    height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+    z-index: 200;
+    transition: transform 0.3s ease;
+    animation: pulseRing 3s infinite;
+  }
+  .whatsapp-float:hover { transform: scale(1.08); }
+  .whatsapp-float svg { width: 28px; height: 28px; fill: #fff; }
+  @keyframes pulseRing {
+    0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.5), 0 6px 24px rgba(0,0,0,0.3); }
+    70% { box-shadow: 0 0 0 12px rgba(37,211,102,0), 0 6px 24px rgba(0,0,0,0.3); }
+    100% { box-shadow: 0 0 0 0 rgba(37,211,102,0), 0 6px 24px rgba(0,0,0,0.3); }
+  }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 900px) {
+    .booking-widget {
+      grid-template-columns: 1fr 1fr;
+    }
+    .booking-submit {
+      grid-column: 1 / -1;
+      padding: 20px;
+    }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .comparison-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .wrap { padding: 0 24px; }
+    .nav { padding: 0 24px; }
+    .nav-links, .nav-book-btn { display: none; }
+    .nav-hamburger { display: flex; }
+    .hero-content { padding: 0 24px 90px; }
+    .mornings-grid { grid-template-columns: 1fr; gap: 40px; }
+    .section { padding: 72px 0; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .slide-text { padding: 28px; flex-direction: column; align-items: flex-start; }
+    .slide-text-right { align-items: flex-start; flex-direction: row; gap: 24px; align-items: center; }
+    .booking-widget { grid-template-columns: 1fr; }
+    .booking-submit { padding: 20px; }
+    .footer-top { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .hero-indicators { display: none; }
+    .final-cta-btns { flex-direction: column; }
+    .hok-signature { flex-direction: column; gap: 16px; }
+    .trust-section, .direct-section { padding: 72px 0; }
+    .testimonials-section { padding: 72px 0; }
+    .final-cta { padding: 80px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .overline, h1.title, .hug-line, .subhead, .hero-cta,
+    .hero-indicators { animation: none; opacity: 1; }
+    .bg-slide { transition: none; animation: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .whatsapp-float { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="nav" id="navbar" role="navigation" aria-label="Main navigation">
+  <a href="#" class="nav-logo">Saanjh</a>
+  <ul class="nav-links">
+    <li><a href="#the-stay">Stay</a></li>
+    <li><a href="#rooms-section">Rooms</a></li>
+    <li><a href="#experiences">Experience</a></li>
+    <li><a href="#contact-house-of-kunj">Contact</a></li>
+  </ul>
+  <a href="https://wa.me/918420118185?text=Hi%2C%20I%27d%20like%20to%20book%20directly%20at%20Saanjh." target="_blank" rel="noopener noreferrer" class="nav-book-btn">Book Direct</a>
+  <button class="nav-hamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="bg-slide bg-slide-1 active"></div>
+    <div class="bg-slide bg-slide-2"></div>
+    <div class="bg-slide bg-slide-3"></div>
+  </div>
+  <div class="hero-content">
+    <p class="mono overline">A Concept by House of Kunj</p>
+    <h1 class="title">Saanjh</h1>
+    <p class="hug-line">The cosiest hug of nature.</p>
+    <p class="subhead">A wooden hillside homestay above Darjeeling's tea gardens.</p>
+    <div class="hero-cta">
+      <a href="https://wa.me/918420118185?text=Hi%2C%20I%27d%20like%20to%20book%20directly%20at%20Saanjh." target="_blank" rel="noopener noreferrer" class="btn filled">Book Direct →</a>
+      <a href="#the-stay" class="btn">Explore the Stay</a>
+    </div>
+  </div>
+  <!-- Slide indicators -->
+  <div class="hero-indicators" role="tablist" aria-label="Hero slides">
+    <button class="hero-dot active" role="tab" aria-selected="true" aria-label="Slide 1" data-slide="0"></button>
+    <button class="hero-dot" role="tab" aria-selected="false" aria-label="Slide 2" data-slide="1"></button>
+    <button class="hero-dot" role="tab" aria-selected="false" aria-label="Slide 3" data-slide="2"></button>
+  </div>
+</section>
+
+<!-- ============================================================
+     BOOKING WIDGET
+============================================================ -->
+<div class="booking-widget-wrap">
+  <div class="booking-widget">
+    <div class="booking-field" role="button" tabindex="0" aria-label="Select check-in date">
+      <span class="booking-field-label">Check-in</span>
+      <span class="booking-field-value" id="bw-checkin">Select date</span>
+    </div>
+    <div class="booking-field" role="button" tabindex="0" aria-label="Select check-out date">
+      <span class="booking-field-label">Check-out</span>
+      <span class="booking-field-value" id="bw-checkout">Select date</span>
+    </div>
+    <div class="booking-field" role="button" tabindex="0" aria-label="Select guests">
+      <span class="booking-field-label">Guests</span>
+      <span class="booking-field-value">2 Adults</span>
+    </div>
+    <button class="booking-submit" aria-label="Check availability" onclick="handleBookingSubmit()">Check Availability</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     TRUST SIGNALS
+============================================================ -->
+<section class="trust-section" id="trust-signals">
+  <div class="wrap">
+    <div class="trust-headline reveal">
+      <span class="mono eyebrow">What's included</span>
+      <h2>Everything you need for a comfortable mountain stay.</h2>
+    </div>
+    <div class="trust-grid reveal">
+      <div class="trust-card">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M1 6l4.5 4.5L9 7l3.5 3.5L16 7l3.5 3.5L23 6"/>
+          <path d="M1 18l4.5-4.5L9 17l3.5-3.5L16 17l3.5-3.5L23 18"/>
+        </svg>
+        <div class="trust-card-title">Panoramic Valley Views</div>
+        <div class="trust-card-desc">Wake up to layered mountains and morning mist rolling over the tea gardens, visible from every room.</div>
+      </div>
+      <div class="trust-card">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+          <line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+        </svg>
+        <div class="trust-card-title">Home-cooked Breakfast</div>
+        <div class="trust-card-desc">Fresh, locally sourced meals made in-house every morning. The kind of breakfast that slows time down.</div>
+      </div>
+      <div class="trust-card">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+        </svg>
+        <div class="trust-card-title">Fast WiFi</div>
+        <div class="trust-card-desc">Reliable high-speed internet throughout the property. Because some things follow you even into the mountains.</div>
+      </div>
+      <div class="trust-card">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <div class="trust-card-title">Cozy Wooden Interiors</div>
+        <div class="trust-card-desc">Handcrafted wood finishes, warm textiles, and thoughtfully curated rooms that feel like home — but better.</div>
+      </div>
+      <div class="trust-card">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4l3 3"/>
+        </svg>
+        <div class="trust-card-title">Local Experiences</div>
+        <div class="trust-card-desc">Tea garden walks, monastery visits, and offbeat trails — curated by a host who knows Darjeeling like a secret.</div>
+      </div>
+      <div class="trust-card">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <div class="trust-card-title">Direct Host Support</div>
+        <div class="trust-card-desc">Reach your host directly, anytime. No chatbots, no delays — just a real person who cares about your stay.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STORYTELLING — MORNINGS
+============================================================ -->
+<section class="section cream" id="the-stay">
+  <div class="wrap mornings-grid">
+    <div class="reveal from-left">
+      <span class="mono eyebrow">The Stay</span>
+      <h2 class="section-title">Mornings here.</h2>
+      <p class="body-copy">The valley fills with mist before the sun does. Tea pickers move through the gardens below, and the only sound for a while is a kettle finding its boil. This isn't a hotel morning — it's a homestay one.</p>
+      <span class="mono time-tag">06:40 · First light over the tea gardens</span>
+    </div>
+    <div class="mornings-photo reveal from-right" role="img" aria-label="Morning breakfast view at Saanjh, Darjeeling"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ROOMS
+============================================================ -->
+<section class="section pine" id="rooms-section">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="mono eyebrow">Where you'll stay</span>
+      <h2 class="section-title">Three rooms. No two alike.</h2>
+    </div>
+
+    <div class="slider reveal" role="region" aria-label="Room showcase">
+      <!-- SLIDE 1 -->
+      <div class="slide slide-1 has-text active" role="tabpanel" aria-label="The Window Room">
+        <div class="slide-text">
+          <div class="slide-text-left">
+            <span class="mono room-tag">Room 01</span>
+            <h3>The Window Room</h3>
+            <p class="room-desc">A low wooden bed beneath a window that holds the whole valley in its frame.</p>
+            <div class="room-meta">
+              <span class="room-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                2 Guests
+              </span>
+              <span class="room-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                Valley sunrise
+              </span>
+            </div>
+          </div>
+          <div class="slide-text-right">
+            <div class="room-price">
+              <span class="room-price-amount">₹7,500</span>
+              <span class="room-price-label">Starting / night</span>
+            </div>
+            <a href="https://wa.me/918420118185?text=Hi%2C%20I%27d%20like%20to%20book%20The%20Window%20Room%20at%20Saanjh." target="_blank" rel="noopener noreferrer" class="room-book-btn">Book This Room →</a>
+          </div>
+        </div>
+      </div>
+      <!-- SLIDE 2 -->
+      <div class="slide slide-2 has-text" role="tabpanel" aria-label="The Fire Room" aria-hidden="true">
+        <div class="slide-text">
+          <div class="slide-text-left">
+            <span class="mono room-tag">Room 02</span>
+            <h3>The Fire Room</h3>
+            <p class="room-desc">Cold nights end here, by a stove that's been warming this house for three winters.</p>
+            <div class="room-meta">
+              <span class="room-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                2 Guests
+              </span>
+              <span class="room-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                Wood stove
+              </span>
+            </div>
+          </div>
+          <div class="slide-text-right">
+            <div class="room-price">
+              <span class="room-price-amount">₹8,200</span>
+              <span class="room-price-label">Starting / night</span>
+            </div>
+            <a href="https://wa.me/918420118185?text=Hi%2C%20I%27d%20like%20to%20book%20The%20Fire%20Room%20at%20Saanjh." target="_blank" rel="noopener noreferrer" class="room-book-btn">Book This Room →</a>
+          </div>
+        </div>
+      </div>
+      <!-- SLIDE 3 -->
+      <div class="slide slide-3 has-text" role="tabpanel" aria-label="The Canopy Room" aria-hidden="true">
+        <div class="slide-text">
+          <div class="slide-text-left">
+            <span class="mono room-tag">Room 03</span>
+            <h3>The Canopy Room</h3>
+            <p class="room-desc">Tucked high in the property, surrounded by rhododendron — an private world above the mist.</p>
+            <div class="room-meta">
+              <span class="room-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                2 Guests
+              </span>
+              <span class="room-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Private balcony
+              </span>
+            </div>
+          </div>
+          <div class="slide-text-right">
+            <div class="room-price">
+              <span class="room-price-amount">₹9,000</span>
+              <span class="room-price-label">Starting / night</span>
+            </div>
+            <a href="https://wa.me/918420118185?text=Hi%2C%20I%27d%20like%20to%20book%20The%20Canopy%20Room%20at%20Saanjh." target="_blank" rel="noopener noreferrer" class="room-book-btn">Book This Room →</a>
+          </div>
+        </div>
+      </div>
+
+      <button class="slider-nav prev" onclick="changeSlide(-1)" aria-label="Previous room">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="slider-nav next" onclick="changeSlide(1)" aria-label="Next room">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="dots" role="tablist" aria-label="Room slides">
+      <button class="dot active" onclick="goToSlide(0)" role="tab" aria-selected="true" aria-label="Room 1"></button>
+      <button class="dot" onclick="goToSlide(1)" role="tab" aria-selected="false" aria-label="Room 2"></button>
+      <button class="dot" onclick="goToSlide(2)" role="tab" aria-selected="false" aria-label="Room 3"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPERIENCES
+============================================================ -->
+<section class="section linen" id="experiences">
+  <div class="wrap mornings-grid" style="direction: rtl;">
+    <div style="direction: ltr;" class="reveal from-right">
+      <span class="mono eyebrow">Beyond the room</span>
+      <h2 class="section-title">Darjeeling at its own pace.</h2>
+      <p class="body-copy">Tea factory tours at first light. Monastery mornings where monks chant beside you. Mountain trails through rhododendron forests. Your host has spent years learning where the valley hides its most beautiful hours — and shares them freely.</p>
+      <span class="mono time-tag" style="color: var(--rust);">Guided · Curated · Unhurried</span>
+    </div>
+    <div style="direction: ltr;" class="reveal from-left">
+      <div style="width: 100%; aspect-ratio: 4/5; background: var(--pine-mid); background-image: url('images/hero-2.jpg'); background-size: cover; background-position: center; position: relative; overflow: hidden;" role="img" aria-label="Darjeeling landscape experience"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+============================================================ -->
+<section class="testimonials-section" id="testimonials">
+  <div class="wrap">
+    <div class="testimonials-header reveal">
+      <span class="mono eyebrow">What guests say</span>
+      <h2>Guests remember how a place made them feel.</h2>
+    </div>
+    <div class="testimonials-grid reveal">
+      <!-- Review 1 -->
+      <div class="testimonial-card">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-quote">"Woke up above the clouds three mornings in a row and still couldn't believe it. The host made us feel like family from the first message. Nothing about this place is ordinary."</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">Arjun & Meera S.</span>
+          <span class="testimonial-city">Bangalore · Stayed 4 nights</span>
+        </div>
+      </div>
+      <!-- Review 2 -->
+      <div class="testimonial-card">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-quote">"I've stayed in many places across the hills. Saanjh is different. The silence here isn't empty — it's full. Full of birdsong, wood smoke, and a quality of light I didn't want to leave behind."</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">Rhea C.</span>
+          <span class="testimonial-city">Mumbai · Stayed 3 nights</span>
+        </div>
+      </div>
+      <!-- Review 3 -->
+      <div class="testimonial-card">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-quote">"Booked directly through WhatsApp. Within minutes the host replied and sorted everything. We arrived to hot chai and warm lamps. That kind of care doesn't exist on OTAs."</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">Dev & Ananya K.</span>
+          <span class="testimonial-city">Delhi · Stayed 5 nights</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DIRECT BOOKING ADVANTAGE
+============================================================ -->
+<section class="direct-section" id="book-direct">
+  <div class="wrap">
+    <div class="direct-inner reveal">
+      <span class="mono eyebrow" style="color: var(--rust); display: block; margin-bottom: 18px;">Book Direct</span>
+      <h2>The best rate is always here.</h2>
+      <p class="body-copy" style="text-align: center;">Book platforms are built for platforms. Saanjh is built for you. Here's what changes when you come directly.</p>
+    </div>
+    <div class="comparison-grid reveal">
+      <div class="comparison-col platform">
+        <span class="comparison-col-label">Booking platforms</span>
+        <ul class="comparison-list">
+          <li>
+            <svg class="comparison-list-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Higher prices with platform markup
+          </li>
+          <li>
+            <svg class="comparison-list-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Hidden service fees at checkout
+          </li>
+          <li>
+            <svg class="comparison-list-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Slower, impersonal communication
+          </li>
+        </ul>
+      </div>
+      <div class="comparison-col direct">
+        <span class="comparison-col-label">Book direct with Saanjh</span>
+        <ul class="comparison-list">
+          <li>
+            <svg class="comparison-list-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Best rate guarantee, always
+          </li>
+          <li>
+            <svg class="comparison-list-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Instant response from your host
+          </li>
+          <li>
+            <svg class="comparison-list-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Personalised stay, curated for you
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <span class="rate-guarantee">Best Rate Guarantee · Direct Only</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+============================================================ -->
+<section class="final-cta" id="contact-house-of-kunj">
+  <div class="wrap final-cta-inner reveal">
+    <span class="mono eyebrow" style="color: var(--amber); display: block; margin-bottom: 20px;">Plan your stay</span>
+    <h2>Your mountain escape begins here.</h2>
+    <p class="subtext">Talk directly with us and plan your perfect stay in Darjeeling. No bots, no delays — just a real conversation.</p>
+    <div class="final-cta-btns">
+      <a href="https://wa.me/918420118185?text=Hi%2C%20I%27d%20like%20to%20plan%20my%20stay%20at%20Saanjh." target="_blank" rel="noopener noreferrer" class="cta-btn-wa">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.04 3.5 8.95 8.95 0 0 0 3.1 12.44a8.84 8.84 0 0 0 1.3 4.62L3 21.5l4.56-1.36a8.96 8.96 0 0 0 4.48 1.2h.01a8.95 8.95 0 0 0 8.95-8.95 8.86 8.86 0 0 0-2.4-6.07zm-5.56 13.6h-.01a7.43 7.43 0 0 1-3.79-1.04l-.27-.16-2.82.84.83-2.75-.18-.28a7.4 7.4 0 0 1-1.14-3.94 7.46 7.46 0 0 1 7.45-7.45 7.4 7.4 0 0 1 5.27 2.18 7.4 7.4 0 0 1 2.18 5.28 7.46 7.46 0 0 1-7.52 7.32z"/></svg>
+        WhatsApp Us
+      </a>
+      <a href="tel:+918420118185" class="cta-btn-call">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 6.72 6.72l1.84-1.84a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 23 16z"/></svg>
+        Call Us
+      </a>
+      <a href="mailto:hello@houseofkunj.com" class="cta-btn-email">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Send an Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h3>Saanjh</h3>
+        <p>A hillside homestay concept above Darjeeling's tea gardens. Designed to show what's possible when a property is built around feeling, not features.</p>
+      </div>
+      <div>
+        <span class="footer-col-label">Navigate</span>
+        <ul class="footer-links">
+          <li><a href="#the-stay">The Stay</a></li>
+          <li><a href="#rooms-section">Rooms</a></li>
+          <li><a href="#experiences">Experiences</a></li>
+          <li><a href="#book-direct">Book Direct</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer-col-label">Get in touch</span>
+        <ul class="footer-links">
+          <li><a href="https://wa.me/918420118185" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          <li><a href="tel:+918420118185">+91 84201 18185</a></li>
+          <li><a href="mailto:hello@houseofkunj.com">hello@houseofkunj.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Saanjh — A concept by House of Kunj. All rights reserved.</p>
+      <p style="color: rgba(243,238,227,0.25); font-size: 0.78rem; font-weight: 300;">Darjeeling, West Bengal, India</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     HOUSE OF KUNJ SIGNATURE BAR
+============================================================ -->
+<div class="hok-signature">
+  <div class="hok-byline">
+    <div class="hok-divider"></div>
+    <div class="hok-text">
+      <span class="hok-name">House of Kunj</span>
+      <span class="hok-tagline">Hospitality Perception Studio</span>
+    </div>
+  </div>
+  <a href="https://wa.me/918420118185?text=Hi%2C%20I%20saw%20the%20Saanjh%20concept%20and%20want%20to%20talk%20about%20my%20property." target="_blank" rel="noopener noreferrer" class="hok-cta-link">
+    We craft digital experiences for properties people remember →
+  </a>
+</div>
+
+<!-- Floating WhatsApp -->
+<a class="whatsapp-float" href="https://wa.me/918420118185?text=Hi%2C%20I%27d%20like%20to%20book%20at%20Saanjh." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.04 3.5 8.95 8.95 0 0 0 3.1 12.44a8.84 8.84 0 0 0 1.3 4.62L3 21.5l4.56-1.36a8.96 8.96 0 0 0 4.48 1.2h.01a8.95 8.95 0 0 0 8.95-8.95 8.86 8.86 0 0 0-2.4-6.07zm-5.56 13.6h-.01a7.43 7.43 0 0 1-3.79-1.04l-.27-.16-2.82.84.83-2.75-.18-.28a7.4 7.4 0 0 1-1.14-3.94 7.46 7.46 0 0 1 7.45-7.45 7.4 7.4 0 0 1 5.27 2.18 7.4 7.4 0 0 1 2.18 5.28 7.46 7.46 0 0 1-7.52 7.32zm4.1-5.59c-.22-.11-1.31-.65-1.52-.72-.2-.08-.35-.11-.5.11-.15.22-.57.72-.7.86-.13.15-.26.16-.48.05-.22-.11-1.07-.39-2.03-1.25a7.6 7.6 0 0 1-1.4-1.74c-.15-.25-.02-.39.1-.5.11-.11.25-.28.37-.42.13-.14.17-.24.25-.4.08-.16.04-.3-.02-.42-.07-.11-.6-1.46-.82-2-.22-.53-.45-.46-.61-.47h-.52c-.17 0-.45.06-.69.32-.24.26-.92.9-.92 2.2 0 1.3.94 2.55 1.07 2.73.13.18 1.83 2.8 4.45 3.81 2.21.85 2.66.68 3.14.64.48-.05 1.31-.54 1.5-1.06.18-.51.18-.95.13-1.05-.05-.1-.2-.16-.42-.27z"/></svg>
+</a>
+
+<script>
+  /* ============================================================
+     NAVBAR — scroll behaviour
+  ============================================================ */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  /* ============================================================
+     HERO SLIDESHOW
+  ============================================================ */
+  const bgSlides = document.querySelectorAll('.bg-slide');
+  const heroDots = document.querySelectorAll('.hero-dot');
+  let bgIndex = 0;
+
+  function setHeroSlide(i) {
+    bgSlides[bgIndex].classList.remove('active');
+    heroDots[bgIndex].classList.remove('active');
+    heroDots[bgIndex].setAttribute('aria-selected', 'false');
+    bgIndex = i;
+    bgSlides[bgIndex].classList.add('active');
+    heroDots[bgIndex].classList.add('active');
+    heroDots[bgIndex].setAttribute('aria-selected', 'true');
+  }
+
+  heroDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      clearInterval(heroTimer);
+      setHeroSlide(parseInt(dot.dataset.slide));
+      heroTimer = setInterval(advanceHero, 6000);
+    });
+  });
+
+  function advanceHero() {
+    setHeroSlide((bgIndex + 1) % bgSlides.length);
+  }
+
+  let heroTimer = setInterval(advanceHero, 6000);
+
+  /* ============================================================
+     ROOM SLIDER
+  ============================================================ */
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+
+  function showSlide(i) {
+    slides.forEach((s, idx) => {
+      s.classList.remove('active');
+      s.setAttribute('aria-hidden', 'true');
+      dots[idx].classList.remove('active');
+      dots[idx].setAttribute('aria-selected', 'false');
+    });
+    slides[i].classList.add('active');
+    slides[i].removeAttribute('aria-hidden');
+    dots[i].classList.add('active');
+    dots[i].setAttribute('aria-selected', 'true');
+    current = i;
+  }
+  function changeSlide(dir) {
+    let next = (current + dir + slides.length) % slides.length;
+    showSlide(next);
+  }
+  function goToSlide(i) { showSlide(i); }
+
+  /* ============================================================
+     BOOKING WIDGET — date helpers
+  ============================================================ */
+  function formatDate(d) {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const dayAfter = new Date(today);
+  dayAfter.setDate(today.getDate() + 3);
+
+  document.getElementById('bw-checkin').textContent = formatDate(tomorrow);
+  document.getElementById('bw-checkout').textContent = formatDate(dayAfter);
+
+  function handleBookingSubmit() {
+    const checkin = document.getElementById('bw-checkin').textContent;
+    const checkout = document.getElementById('bw-checkout').textContent;
+    const msg = encodeURIComponent(`Hi, I'd like to check availability at Saanjh. Check-in: ${checkin}, Check-out: ${checkout}.`);
+    window.open(`https://wa.me/918420118185?text=${msg}`, '_blank', 'noopener,noreferrer');
+  }
+
+  /* ============================================================
+     SCROLL REVEAL
+  ============================================================ */
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  // Stagger children of grids
+  document.querySelectorAll('.trust-grid, .testimonials-grid, .comparison-grid').forEach(grid => {
+    Array.from(grid.children).forEach((child, i) => {
+      if (!child.classList.contains('reveal')) {
+        child.classList.add('reveal');
+        child.dataset.delay = i * 80;
+      }
+    });
+  });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // Re-observe after stagger injection
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
